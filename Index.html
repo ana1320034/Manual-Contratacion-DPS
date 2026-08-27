@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Manual de Contratación V7 - Prosperidad Social</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: rgba(59, 130, 246, 0.3);
+    }
+    body {
+      background-color: #090d16;
+      color: #f1f5f9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+    .presentation-card {
+      width: 100%;
+      max-width: 1100px;
+      min-height: 640px;
+      background-color: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      position: relative;
+    }
+    /* Barra Superior */
+    .top-bar {
+      background-color: #111827;
+      border-bottom: 1px solid #1f2937;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      z-index: 30;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .header-titles {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .badge-title {
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
+      color: #ffffff;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      letter-spacing: 0.3px;
+      font-size: 11px;
+    }
+    .sub-title {
+      color: #94a3b8;
+      font-weight: 500;
+      font-size: 11px;
+    }
+    .header-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .nav-btn {
+      background-color: #1e293b;
+      color: #cbd5e1;
+      border: 1px solid #334155;
+      padding: 7px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      touch-action: manipulation;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover, .nav-btn:active {
+      background-color: #2563eb;
+      color: #ffffff;
+      border-color: #2563eb;
+    }
+    .btn-origin {
+      background-color: #78350f;
+      color: #fde68a;
+      border: 1px solid #d97706;
+      display: none;
+    }
+    .btn-origin:hover, .btn-origin:active {
+      background-color: #92400e;
+    }
+    .counter {
+      background-color: #030712;
+      border: 1px solid #1f2937;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-weight: 700;
+      color: #94a3b8;
+      font-size: 12px;
+    }
+    /* Diapositivas */
+    .slide-body {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 24px 28px;
+      position: relative;
+    }
+    .slide {
+      display: none;
+      flex-direction: column;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+    .slide.active {
+      display: flex;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.99); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    /* Estructuras adaptables */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+    /* Botones de tarjetas táctiles */
+    button.card-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 16px;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: all 0.2s;
+    }
+    button.card-item:hover, button.card-item:active {
+      border-color: #3b82f6;
+      background-color: #243048;
+      transform: translateY(-2px);
+    }
+    .img-box {
+      width: 100%;
+      height: 260px;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid #334155;
+    }
+    .img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .info-box {
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    /* Barra Inferior */
+    .bottom-bar {
+      background-color: #111827;
+      border-top: 1px solid #1f2937;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btn-action {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .btn-action:hover, .btn-action:active {
+      background-color: #1d4ed8;
+    }
+    .btn-secondary {
+      background-color: #1e293b;
+      color: #cbd5e1;
+      border: 1px solid #334155;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .btn-secondary:hover, .btn-secondary:active {
+      background-color: #334155;
+    }
+    .dots {
+      display: flex;
+      gap: 6px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background-color: #334155;
+      border: none;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .dot.active {
+      background-color: #3b82f6;
+      width: 22px;
+    }
+
+    /* Ajustes específicos para pantallas móviles pequeñas (iPhone) */
+    @media (max-width: 640px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+      .slide-body {
+        padding: 16px;
+      }
+      .img-box {
+        height: 180px;
+      }
+      .sub-title {
+        display: none;
+      }
+      .top-bar {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="presentation-card">
+    
+    <!-- BARRA SUPERIOR -->
+    <div class="top-bar">
+      <div class="header-titles">
+        <span class="badge-title">Manual de Contratación y Supervisión</span>
+        <span class="sub-title">Versión 7 (2026) • Código: M-GC-1 • Prosperidad Social</span>
+      </div>
+
+      <div class="header-controls">
+        <button type="button" onclick="irASlide(2)" class="nav-btn">🗺️ Mapa Inicial / Índice</button>
+        <button type="button" id="btnVolverOrigen" onclick="volverAOrigen()" class="nav-btn btn-origin">↩ Volver</button>
+        <span id="slideIndicator" class="counter">1 / 7</span>
+      </div>
+    </div>
+
+    <!-- CUERPO DE LAS DIAPOSITIVAS -->
+    <div class="slide-body">
+
+      <!-- SLIDE 1: PORTADA -->
+      <div class="slide active" data-slide="1" style="text-align: center; align-items: center; gap: 18px;">
+        <div style="background: rgba(37, 99, 235, 0.2); color: #60a5fa; padding: 6px 16px; border-radius: 9999px; font-size: 12px; font-weight: 700; border: 1px solid rgba(59, 130, 246, 0.3);">
+          MARCO DE ACTUACIÓN INSTITUCIONAL
+        </div>
+        <h1 style="font-size: clamp(24px, 5vw, 38px); font-weight: 800; line-height: 1.2; max-width: 800px; color: #ffffff;">
+          Manual de Contratación y Supervisión V7
+        </h1>
+        <p style="color: #94a3b8; max-width: 650px; font-size: 14px; line-height: 1.6;">
+          Lineamientos de contratación, planeación y coexistencia de regímenes en Prosperidad Social y el Fondo de Inversión para la Paz (FIP).
+        </p>
+        <button type="button" onclick="irASlide(2)" class="btn-action" style="padding: 12px 28px; font-size: 14px; margin-top: 8px;">
+          Explorar Mapa de Contenido →
+        </button>
+      </div>
+
+      <!-- SLIDE 2: ÍNDICE / MAPA INICIAL -->
+      <div class="slide" data-slide="2">
+        <div style="border-bottom: 1px solid #1e293b; padding-bottom: 10px; margin-bottom: 14px;">
+          <h2 style="font-size: clamp(20px, 4vw, 24px); font-weight: 700; color: #ffffff;">Mapa de Navegación Temático</h2>
+          <p style="font-size: 12px; color: #94a3b8;">Toca cualquier unidad para abrir la diapositiva:</p>
+        </div>
+
+        <div class="grid-cards">
+          <button type="button" onclick="saltarASlide(3)" class="card-item">
+            <span style="color: #3b82f6; font-size: 11px; font-weight: 700; display: block;">Capítulo 2 y 3</span>
+            <strong style="font-size: 15px; color: #ffffff; display: block; margin: 2px 0 4px 0;">1. Objetivo y Alcance</strong>
+            <span style="font-size: 12px; color: #94a3b8; display: block;">Propósito misional, enfoque por procesos y obligatoriedad al 100%.</span>
+          </button>
+
+          <button type="button" onclick="saltarASlide(4)" class="card-item">
+            <span style="color: #818cf8; font-size: 11px; font-weight: 700; display: block;">Capítulo 6</span>
+            <strong style="font-size: 15px; color: #ffffff; display: block; margin: 2px 0 4px 0;">2. Dos Regímenes Jurídicos</strong>
+            <span style="font-size: 12px; color: #94a3b8; display: block;">EGCAP (Derecho Público) vs. FIP (Derecho Privado) y recursos mixtos.</span>
+          </button>
+
+          <button type="button" onclick="saltarASlide(5)" class="card-item">
+            <span style="color: #34d399; font-size: 11px; font-weight: 700; display: block;">Capítulo 4.1</span>
+            <strong style="font-size: 15px; color: #ffffff; display: block; margin: 2px 0 4px 0;">3. Glosario y Principios</strong>
+            <span style="font-size: 12px; color: #94a3b8; display: block;">Valor por dinero, compra pública sostenible y actas de liquidación.</span>
+          </button>
+
+          <button type="button" onclick="saltarASlide(6)" class="card-item">
+            <span style="color: #fbbf24; font-size: 11px; font-weight: 700; display: block;">Capítulo 4.2</span>
+            <strong style="font-size: 15px; color: #ffffff; display: block; margin: 2px 0 4px 0;">4. Directorio de Siglas</strong>
+            <span style="font-size: 12px; color: #94a3b8; display: block;">Catálogo oficial: SECOP, PAA, CDP, ANS, TVEC y UNSPSC.</span>
+          </button>
+
+          <button type="button" onclick="saltarASlide(7)" class="card-item">
+            <span style="color: #22d3ee; font-size: 11px; font-weight: 700; display: block;">Capítulo 5 y 7</span>
+            <strong style="font-size: 15px; color: #ffffff; display: block; margin: 2px 0 4px 0;">5. Gobernanza y Competencia</strong>
+            <span style="font-size: 12px; color: #94a3b8; display: block;">Naturaleza jurídica, titularidad, delegación y ordenación del gasto.</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- SLIDE 3: OBJETIVO Y ALCANCE -->
+      <div class="slide" data-slide="3">
+        <div class="grid-2">
+          <div>
+            <span style="color: #60a5fa; font-size: 12px; font-weight: 700;">CAPÍTULO 2 Y 3 (PÁG. 7)</span>
+            <h2 style="font-size: clamp(20px, 4vw, 26px); color: #ffffff; margin: 4px 0 10px 0;">Objetivo Misional y Alcance</h2>
+            <p style="font-size: 13px; color: #94a3b8; line-height: 1.5; margin-bottom: 12px;">
+              El manual es un instrumento operativo bajo un <strong>enfoque de gestión por procesos</strong> para optimizar las adquisiciones públicas garantizando transparencia y eficiencia.
+            </p>
+            <div class="info-box">
+              <strong style="color: #ffffff;">Cobertura del 100%:</strong> Obligatorio para la adquisición de bienes, obras y servicios con recursos propios y del FIP.
+            </div>
+            <div class="info-box">
+              <strong style="color: #ffffff;">Sujetos Obligados:</strong> Servidores públicos, contratistas e interventores designados.
+            </div>
+          </div>
+          <div class="img-box">
+            <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=800&q=80" alt="Ley y Justicia" />
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 4: REGÍMENES CONTRACTUALES -->
+      <div class="slide" data-slide="4">
+        <span style="color: #818cf8; font-size: 12px; font-weight: 700;">CAPÍTULO 6 (PÁG. 14)</span>
+        <h2 style="font-size: clamp(20px, 4vw, 26px); color: #ffffff; margin: 4px 0 14px 0;">Coexistencia de Regímenes Contractuales</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 12px;">
+          <div style="background-color: #1e293b; border-left: 4px solid #3b82f6; padding: 14px; border-radius: 10px;">
+            <strong style="color: #60a5fa; display: block; margin-bottom: 4px;">Estatuto General (EGCAP)</strong>
+            <p style="font-size: 12px; color: #cbd5e1; line-height: 1.5;">Rige compras con presupuesto ordinario (Leyes 80/1993, 1150/2007, Dec. 1082/2015). Aplica sanciones del Art. 86 Ley 1474/2011.</p>
+          </div>
+          <div style="background-color: #1e293b; border-left: 4px solid #6366f1; padding: 14px; border-radius: 10px;">
+            <strong style="color: #a5b4fc; display: block; margin-bottom: 4px;">Fondo de Inversión para la Paz (FIP)</strong>
+            <p style="font-size: 12px; color: #cbd5e1; line-height: 1.5;">Rige por derecho privado (Ley 487/1998, Código Civil y Comercial). <strong>Prohibido</strong> aplicar cláusulas exorbitantes públicas.</p>
+          </div>
+        </div>
+        <div style="background-color: rgba(245, 158, 11, 0.15); border: 1px solid #d97706; border-radius: 10px; padding: 10px 14px; font-size: 12px; color: #fde68a;">
+          <strong>Regla de Recursos Mixtos:</strong> Al concurrir recursos ordinarios y FIP, aplica de manera obligatoria el Estatuto General (EGCAP).
+        </div>
+      </div>
+
+      <!-- SLIDE 5: GLOSARIO Y PRINCIPIOS -->
+      <div class="slide" data-slide="5">
+        <span style="color: #34d399; font-size: 12px; font-weight: 700;">CAPÍTULO 4.1 (PÁG. 8-12)</span>
+        <h2 style="font-size: clamp(20px, 4vw, 26px); color: #ffffff; margin: 4px 0 14px 0;">Conceptos y Principios Orientadores</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+          <div class="info-box">
+            <strong style="color: #34d399; display: block; margin-bottom: 4px;">🌱 Compra Sostenible</strong>
+            <span style="font-size: 12px; color: #cbd5e1;">Integra factores sociales y ambientales para optimizar el valor durante todo el ciclo de vida.</span>
+          </div>
+          <div class="info-box">
+            <strong style="color: #60a5fa; display: block; margin-bottom: 4px;">💰 Valor por Dinero</strong>
+            <span style="font-size: 12px; color: #cbd5e1;">Maximiza el beneficio de los fondos públicos considerando costo total, calidad y oportunidad.</span>
+          </div>
+          <div class="info-box">
+            <strong style="color: #c084fc; display: block; margin-bottom: 4px;">📝 Acta de Liquidación</strong>
+            <span style="font-size: 12px; color: #cbd5e1;">Corte vinculante de cuentas que permite salvedades y presta mérito ejecutivo.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 6: SIGLAS -->
+      <div class="slide" data-slide="6">
+        <span style="color: #fbbf24; font-size: 12px; font-weight: 700;">CAPÍTULO 4.2 (PÁG. 12-13)</span>
+        <h2 style="font-size: clamp(20px, 4vw, 26px); color: #ffffff; margin: 4px 0 14px 0;">Directorio Oficial de Siglas</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; font-size: 12px;">
+          <div class="info-box" style="margin: 0;"><b style="color: #60a5fa;">AMP:</b> Ac. Marco Precios</div>
+          <div class="info-box" style="margin: 0;"><b style="color: #60a5fa;">ANS:</b> Niveles Servicio</div>
+          <div class="info-box" style="margin: 0;"><b style="color: #60a5fa;">BPIN:</b> Banco Proyectos</div>
+          <div class="info-box" style="margin: 0;"><b style="color: #60a5fa;">CCE:</b> Colombia Compra</div>
+          <div class="info-box" style="margin: 0;"><b style="color: #60a5fa;">CDP:</b> Disp. Presupuestal</div>
+          <div class="info-box" style="margin: 0;"><b style="color: #60a5fa;">EGCAP:</b> Estatuto General</div>
+          <div class="info-box" style="margin: 0;"><b style="color: #60a5fa;">FIP:</b> Fondo Inversión Paz</div>
+          <div class="info-box" style="margin: 0;"><b style="color: #60a5fa;">PAA:</b> Plan Adquisiciones</div>
+          <div class="info-box" style="margin: 0;"><b style="color: #60a5fa;">RP:</b> Reg. Presupuestal</div>
+          <div class="info-box" style="margin: 0;"><b style="color: #60a5fa;">SECOP:</b> Sis. Contratación</div>
+          <div class="info-box" style="margin: 0;"><b style="color: #60a5fa;">TVEC:</b> Tienda Virtual</div>
+          <div class="info-box" style="margin: 0;"><b style="color: #60a5fa;">GS:</b> Gran Superficie</div>
+        </div>
+      </div>
+
+      <!-- SLIDE 7: GOBERNANZA -->
+      <div class="slide" data-slide="7">
+        <div class="grid-2">
+          <div>
+            <span style="color: #22d3ee; font-size: 12px; font-weight: 700;">CAPÍTULO 5 Y 7 (PÁG. 13-14)</span>
+            <h2 style="font-size: clamp(20px, 4vw, 26px); color: #ffffff; margin: 4px 0 10px 0;">Gobernanza y Competencia</h2>
+            <div class="info-box">
+              <strong style="color: #ffffff;">Naturaleza (Dec. 017 de 2025):</strong> Prosperidad Social es el organismo principal del Sector de Inclusión Social y Reconciliación.
+            </div>
+            <div class="info-box">
+              <strong style="color: #ffffff;">Titularidad:</strong> Radica en el Director General. La ordenación del gasto y suscripción son delegables por acto administrativo.
+            </div>
+          </div>
+          <div class="img-box">
+            <img src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=800&q=80" alt="Inclusión Social" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BARRA INFERIOR -->
+    <div class="bottom-bar">
+      <button type="button" onclick="slideAnterior()" id="btnPrev" class="btn-secondary">← Anterior</button>
+      <div class="dots" id="dotsContainer"></div>
+      <button type="button" onclick="slideSiguiente()" id="btnNext" class="btn-action">Siguiente →</button>
+    </div>
+
+  </div>
+
+  <!-- CONTROLADOR JAVASCRIPT ROBUSTO CON COMPATIBILIDAD SAFARI / TOUCH -->
+  <script>
+    var currentSlide = 1;
+    var totalSlides = 7;
+    var slideOrigen = null;
+
+    // Inicialización de dots
+    var dotsContainer = document.getElementById('dotsContainer');
+    dotsContainer.innerHTML = '';
+    for (var i = 1; i <= totalSlides; i++) {
+      (function(index) {
+        var dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'dot ' + (index === 1 ? 'active' : '');
+        dot.addEventListener('click', function() { irASlide(index); });
+        dotsContainer.appendChild(dot);
+      })(i);
+    }
+
+    function actualizarUI() {
+      var slides = document.querySelectorAll('.slide');
+      for (var s = 0; s < slides.length; s++) {
+        slides[s].classList.remove('active');
+      }
+
+      var activeSlide = document.querySelector('.slide[data-slide="' + currentSlide + '"]');
+      if (activeSlide) {
+        activeSlide.classList.add('active');
+      }
+
+      document.getElementById('slideIndicator').innerText = currentSlide + ' / ' + totalSlides;
+
+      var dots = dotsContainer.children;
+      for (var d = 0; d < dots.length; d++) {
+        dots[d].className = (d + 1 === currentSlide) ? 'dot active' : 'dot';
+      }
+
+      var btnVolver = document.getElementById('btnVolverOrigen');
+      if (slideOrigen !== null && currentSlide !== slideOrigen && currentSlide !== 2) {
+        btnVolver.style.display = 'inline-block';
+        btnVolver.innerText = '↩ Volver a Slide ' + slideOrigen;
+      } else {
+        btnVolver.style.display = 'none';
+      }
+
+      var btnPrev = document.getElementById('btnPrev');
+      btnPrev.disabled = (currentSlide === 1);
+      btnPrev.style.opacity = (currentSlide === 1) ? '0.4' : '1';
+
+      var btnNext = document.getElementById('btnNext');
+      btnNext.disabled = (currentSlide === totalSlides);
+      btnNext.style.opacity = (currentSlide === totalSlides) ? '0.4' : '1';
+    }
+
+    function irASlide(num) {
+      if (num >= 1 && num <= totalSlides) {
+        currentSlide = num;
+        actualizarUI();
+      }
+    }
+
+    function saltarASlide(numDestino) {
+      slideOrigen = currentSlide;
+      irASlide(numDestino);
+    }
+
+    function volverAOrigen() {
+      if (slideOrigen !== null) {
+        var destino = slideOrigen;
+        slideOrigen = null;
+        irASlide(destino);
+      }
+    }
+
+    function slideSiguiente() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        actualizarUI();
+      }
+    }
+
+    function slideAnterior() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        actualizarUI();
+      }
+    }
+
+    // Soporte para teclado físico (Mac/PC)
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowRight' || e.key === ' ') slideSiguiente();
+      if (e.key === 'ArrowLeft') slideAnterior();
+      if (e.key === 'Home') irASlide(1);
+    });
+
+    // Asegurar carga inmediata
+    window.addEventListener('DOMContentLoaded', actualizarUI);
+  </script>
+</body>
+</html>
